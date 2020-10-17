@@ -1,0 +1,66 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}	
+
+<div class="page-header">
+	<h1><span class="glyphicon glyphicon-tree-deciduous"></span>{{ 'Tags'|lang }}</h1>
+	<p>{{ 'Here you can see tags on website'|lang }}</p>
+</div>
+
+{% include 'alert.tpl' %}
+
+{% if tags %}
+	<table class="table parent_select_checkbox table-striped table-bordered table-condensed">
+		<tr>
+			<th></th>
+			<th>{{ 'The name'|lang }}
+				<a href="?{{ pagination.page_url.sort_admin }}&sort=name" title="{{ 'Sort'|lang }}" class="glyphicon glyphicon-sort-by-attributes"></a>
+				<a href="?{{ pagination.page_url.sort_admin }}&sort=name&sort_desc" title="{{ 'Sort descending'|lang }}" class="glyphicon glyphicon-sort-by-attributes-alt"></a>
+			</th>
+			<th class="text-center">{{ 'Amount'|lang }}
+				<a href="?{{ pagination.page_url.sort_admin }}&sort=amount" title="{{ 'Sort'|lang }}" class="glyphicon glyphicon-sort-by-attributes"></a>
+				<a href="?{{ pagination.page_url.sort_admin }}&sort=amount&sort_desc" title="{{ 'Sort descending'|lang }}" class="glyphicon glyphicon-sort-by-attributes-alt"></a>
+			</th>
+			<th class="text-center">{{ 'Remove'|lang }}</th>
+		</tr>
+			
+		{% for item in tags %}
+			<tr>
+				<td>{{ loop.index+pagination.limit_start }}</td>
+				<td><a href="{{ path('tag',item.id,item.slug) }}" target="_blank" title="{{ item.name }}">{{ item.name }}</a></td>
+				<td class="text-center">{{ item.amount }}</td>
+				<td class="text-center"><a href="#" title="{{ 'Remove'|lang }}" class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#remove_{{ item.id }}"></a></td>
+			</tr>
+				
+			<div class="modal fade" id="remove_{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ 'Remove tag'|lang }}: {{ item.name }}">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">{{ 'Remove tag'|lang }}</h4>
+						</div>
+						<form method="post">
+							<input type="hidden" name="action" value="remove_tag">
+							<input type="hidden" name="id" value="{{ item.id }}">
+							<div class="modal-body">
+								<p>{{ 'Are you sure you want to remove tag'|lang }}: "{{ item.name }}"?</p>
+							</div>
+							<div class="modal-footer">
+								<input type="button" class="btn btn-default" data-dismiss="modal" value="{{ 'Cancel'|lang }}">
+								<input type="submit" class="btn btn-danger" value="{{ 'Execute'|lang }}">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		{% endfor %}		
+	</table>
+	
+	{% include 'pagination.tpl' %}
+	
+{% else %}
+	<h4 class="text-danger">{{ 'Nothing found'|lang }}</h4>
+{% endif %}
+
+{% endblock %}

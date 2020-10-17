@@ -1,0 +1,188 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+<div class="page-header">
+	<h1><span class="glyphicon glyphicon-list-alt"></span> {{ 'Files'|lang }}</h1>
+	<p>{{ 'Here you can see the files in website. To edit it, you must be an moderator'|lang }}</p>
+</div>
+
+{% include 'alert.tpl' %}
+
+<form method="get" class="form-horizontal" role="form">
+	<input type="hidden" name="module" value="files">
+	<input type="hidden" name="search">
+	<div class="form-group form-group-sm">
+		<div class="col-md-2">
+			<label for="id">{{ 'ID'|lang }}:</label>
+			<input type="number" name="id" title="{{ 'Enter the ID'|lang }}" placeholder="{{ 'ID'|lang }}" value="{{ get.id }}" class="form-control">
+		</div>
+		<div class="col-md-5">
+			<label for="title">{{ 'Title'|lang }}:</label>
+			<input type="text" name="title" title="{{ 'Here enter title'|lang }}" placeholder="{{ 'Title'|lang }}" value="{{ get.title }}" class="form-control">
+		</div>
+		{% if users %}
+			<div class="col-md-5">
+				<label for="user_id">{{ 'Select user'|lang }}:</label>
+				<select name="user_id" title="{{ 'Select user'|lang }}" class="form-control">
+					<option value="">{{ 'All users'|lang }}</option>
+					{% for user in users %}
+						<option value="{{ user.id }}" {% if get.user_id and get.user_id==user.id %}selected{% endif %}>{{ user.username }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		{% endif %}
+	</div>
+	<div class="form-group form-group-sm">
+		<div class="col-md-2">
+			<label for="main_page">{{ 'Main Page'|lang }}:</label>
+			<select name="main_page" title="{{ 'Main Page'|lang }}" class="form-control">
+				<option value="">{{ 'All'|lang }}</option>
+				<option value="yes" {% if get.main_page=='yes' %}selected{% endif %}>{{ 'Main Page'|lang }}</option>
+				<option value="no" {% if get.main_page=='no' %}selected{% endif %}>{{ 'Waiting Room'|lang }}</option>
+			</select>
+		</div>
+		<div class="col-md-4">
+			<label for="date">{{ 'Date added'|lang }}: </label>
+			<div class="form-inline">
+				<input name="date_from" title="{{ 'Select the starting date'|lang }}" type="date" max="{{ 'now'|date('Y-m-d') }}" value="{{ get.date_from }}" class="form-control datepicker">
+				 - 
+				<input name="date_to" title="{{ 'Select the end date'|lang }}" type="date" max="{{ 'now'|date('Y-m-d') }}" value="{{ get.date_to }}" class="form-control datepicker">
+			</div>
+		</div>
+		<div class="col-md-4">
+			<label for="ip">{{ 'IP address'|lang }}:</label>
+			<input type="text" name="ip" title="{{ 'IP address'|lang }}" placeholder="{{ 'IP address'|lang }}" value="{{ get.ip }}" class="form-control">
+		</div>
+		<div class="col-md-2 text-right">
+			<label>&nbsp;</label><br>
+			<input type="submit" value="{{ 'Search'|lang }}" class="btn btn-primary text-uppercase">
+		</div>
+	</div>
+</form>
+<br>
+{% if files %}
+	<div class="table-responsive">
+		<table class="table parent_select_checkbox table-striped table-bordered table-condensed">
+			<tr>
+				<th class="text-center"><input type="checkbox" class="select_checkbox" title="{{ 'Select all'|lang }}"></th>
+				<th class="text-center">{{ 'ID'|lang }}<br>
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=id" title="{{ 'Sort'|lang }}" class="glyphicon glyphicon-sort-by-attributes"></a>
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=id&sort_desc" title="{{ 'Sort descending'|lang }}" class="glyphicon glyphicon-sort-by-attributes-alt"></a>
+				</th>
+				<th>{{ 'Thumb'|lang }}</th>
+				<th>{{ 'Title'|lang }}<br>
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=title" title="{{ 'Sort'|lang }}" class="glyphicon glyphicon-sort-by-attributes"></a>
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=title&sort_desc" title="{{ 'Sort descending'|lang }}" class="glyphicon glyphicon-sort-by-attributes-alt"></a>
+				</th>
+				<th class="text-center">{{ 'Main Page'|lang }}</th>
+				<th>{{ 'User'|lang }}</th>
+				<th class="text-center">{{ 'View count'|lang }}<br>{{ 'all'|lang }} / {{ 'unique'|lang }}</th>
+				<th class="text-center">{{ 'Date added'|lang }}
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=date" title="{{ 'Sort'|lang }}" class="glyphicon glyphicon-sort-by-attributes"></a>
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=date&sort_desc" title="{{ 'Sort descending'|lang }}" class="glyphicon glyphicon-sort-by-attributes-alt"></a>
+				</th>
+				<th>{{ 'IP address'|lang }}<br>
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=ip" title="{{ 'Sort'|lang }}" class="glyphicon glyphicon-sort-by-attributes"></a>
+					<a href="?{{ pagination.page_url.sort_admin }}&sort=ip&sort_desc" title="{{ 'Sort descending'|lang }}" class="glyphicon glyphicon-sort-by-attributes-alt"></a>
+				</th>
+				<th class="text-center">{{ 'Edit'|lang }}</th>
+				<th class="text-center">{{ 'Remove'|lang }}</th>
+			</tr>
+				
+			{% for item in files %}
+				<tr>
+					<td class="text-center"><input type="checkbox" name="files[]" value="{{ item.id }}" form="form_selected_files"></td>
+					<td class="text-center">{{ item.id }}</td>
+					<td>{% if item.type=='image' %}
+							<a href="../upload/files/{{ item.thumb }}" title="{{ item.title }}"><img src="../upload/files/{{ item.thumb }}" alt="{{ item.title }}" class="thumbnail-100"></a>
+						{% elseif item.type=='iframe' %}
+							<a href="{{ item.thumb }}" title="{{ item.title }}"><img src="{{ item.thumb }}" alt="{{ item.title }}" class="thumbnail-100"></a>
+						 {% elseif item.type=='video' %}
+							 <video class="thumbnail-100" controls>
+							   <source src="../upload/files/{{ item.url }}" type="video/mp4">
+							 </video>
+						 {% endif %}
+					</td>
+					<td><a href="{{ path('file',item.id,item.slug) }}" title="{{ item.name }}" target="_blank">{{ item.title }}</a></td>
+					<td class="text-center">{% if item.waiting_room %}
+							<a href="#" title="{{ 'Add to Main Page'|lang }}" data-toggle="modal" data-target="#set_main_page{{ item.id }}">{{ 'No'|lang }}</a>
+						{% else %}
+							{{ 'Yes'|lang }}
+						{% endif %}
+					</td>
+					<td>
+						{% if item.username %}<a href="?module=users&search&username={{ item.username }}" title="{{ item.username }}">{{ item.username }}</a>{% endif %}
+					</td>
+					<td class="text-center">{{ item.view_all }} / {{ item.view_unique|default(0) }}</td>
+					<td class="text-center">{{ item.date|date('Y-m-d') }}</td>
+					<td class="text-center">{{ item.ip }}</td>
+					<td class="text-center"><a href="{{ path('edit',item.id,item.slug) }}" title="{{ 'Edit file'|lang }}" class="glyphicon glyphicon-edit" target="_blank"></a></td>		
+					<td class="text-center"><a href="#" title="{{ 'Delete file'|lang }}" class="glyphicon glyphicon-remove text-danger" data-toggle="modal" data-target="#remove_{{ item.id }}"></a></td>								
+				</tr>
+				
+				<div class="modal fade" id="set_main_page{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ 'Add to Main Page'|lang }}: {{ item.name }}">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">{{ 'Add to Main Page'|lang }}</h4>
+							</div>
+							<form method="post">
+								<input type="hidden" name="action" value="set_main_page">
+								<input type="hidden" name="id" value="{{ item.id }}">
+								<div class="modal-body">
+									<p>{{ 'Add to Main Page'|lang }}: "{{ item.title }}"</p>
+								</div>
+								<div class="modal-footer">
+									<input type="button" class="btn btn-default" data-dismiss="modal" value="{{ 'Cancel'|lang }}">
+									<input type="submit" class="btn btn-danger" value="{{ 'Execute'|lang }}">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="remove_{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ 'Delete file'|lang }}: {{ item.name }}">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">{{ 'Delete file'|lang }}</h4>
+							</div>
+							<form method="post">
+								<input type="hidden" name="action" value="remove_file">
+								<input type="hidden" name="id" value="{{ item.id }}">
+								<input type="hidden" name="ip" value="{{ item.ip }}">
+								<div class="modal-body">
+									<p>{{ 'Are you sure you want to delete file'|lang }}: "{{ item.title }}"?</p>
+									<label><input type="checkbox" name="add_ip_black_list"> {{ 'Add IP to black list'|lang }}</label>
+								</div>
+								<div class="modal-footer">
+									<input type="button" class="btn btn-default" data-dismiss="modal" value="{{ 'Cancel'|lang }}">
+									<input type="submit" class="btn btn-danger" value="{{ 'Execute'|lang }}">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			{% endfor %}		
+		</table>
+	</div>
+	<br>
+	<form method="post" id="form_selected_files" class="form-inline">
+		<label for="action">{{ 'Selected'|lang }}: </label>
+		<select name="action" required title="{{ 'Select the appropriate action'|lang }}" class="form-control">
+			<option value="">-- {{ 'select'|lang }} --</option>
+			<option value="set_main_page_files">{{ 'Add to Main Page'|lang }}</option>
+			<option value="remove_files">{{ 'Remove files'|lang }}</option>
+		</select> 
+		<input type="submit" value="{{ 'Execute'|lang }}!" class="btn btn-sm btn-danger">
+	</form>
+	
+	{% include 'pagination.tpl' %}
+	
+{% else %}
+	<h4 class="text-danger">{{ 'Nothing found'|lang }}</h4>
+{% endif %}
+{% endblock %}

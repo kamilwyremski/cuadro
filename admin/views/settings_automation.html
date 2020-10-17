@@ -1,0 +1,60 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+<div class="page-header">
+	<h1><span class="glyphicon glyphicon-asterisk"></span> {{ 'Automation'|lang }}</h1>
+	<p>{{ 'For automatic tasks to work you must set the cron task on the server for the cron-hourly.php file'|lang }}</p>
+</div>
+
+{% include 'alert.tpl' %}
+
+<form method="post" class="form-horizontal" role="form">
+	<input type="hidden" name="action" value="save_settings_automation">
+	<div class="form-group">
+		<label><input type="checkbox" name="automation_randomly" title="{{ 'Turn on the following task'|lang }}" {% if settings.automation_randomly %}checked{% endif %}> {{ 'Turn on the following task'|lang }}</label>
+		<div class="form-inline">
+			<label for="automation_randomly_files">{{ 'Add randomly'|lang }}</label>
+			<input type="number" name="automation_randomly_files" min="0" title="{{ 'Number of files'|lang }}" class="form-control" value="{{ settings.automation_randomly_files }}">
+			<label>{{ 'files to the main page'|lang }}</label>
+		</div>
+	</div>
+	<hr>
+	<div class="form-group">
+		<label><input type="checkbox" name="automation_added" title="{{ 'Turn on the following task'|lang }}" {% if settings.automation_added %}checked{% endif %}> {{ 'Turn on the following task'|lang }}</label>
+		<div class="form-inline">
+			<label for="automation_added_files">{{ 'Add randomly'|lang }}</label>
+			<input type="number" name="automation_added_files" min="0" title="{{ 'Number of files'|lang }}" class="form-control" value="{{ settings.automation_added_files }}">
+			<label>{{ 'files to the main page'|lang }} - {{ 'added more than'|lang }}</label>
+			<input type="number" name="automation_added_days" min="0" title="{{ 'Number of days'|lang }}" class="form-control" value="{{ settings.automation_added_days }}">
+			<label for="automation_added_days">{{ 'days ago'|lang }}</label>
+		</div>
+	</div>
+	<hr>
+	<div class="form-group">
+		<label><input type="checkbox" name="automation_votes_plus" title="{{ 'Turn on the following task'|lang }}" {% if settings.automation_votes_plus %}checked{% endif %}> {{ 'Turn on the following task'|lang }}</label>
+		<div class="form-inline">
+			<label for="automation_votes_plus_files">{{ 'Add randomly'|lang }}</label>
+			<input type="number" name="automation_votes_plus_files" min="0" title="{{ 'Number of files'|lang }}" class="form-control" value="{{ settings.automation_votes_plus_files }}">
+			<label>{{ 'files to the main page'|lang }} - {{ 'having more than'|lang }}</label>
+			<input type="number" name="automation_votes_plus_votes" min="0" title="{{ 'Number of files'|lang }}" class="form-control" value="{{ settings.automation_votes_plus_votes }}">
+			<label for="automation_votes_plus_votes">{{ 'votes'|lang }} +</label>
+		</div>
+	</div>
+	<hr>
+	<div class="form-group">
+		<label><input type="checkbox" name="automation_votes_minus" title="{{ 'Turn on the following task'|lang }}" {% if settings.automation_votes_minus %}checked{% endif %}> {{ 'Turn on the following task'|lang }}</label>
+		<div class="form-inline">
+			<label for="automation_votes_minus_files">{{ 'Add randomly'|lang }}</label>
+			<input type="number" name="automation_votes_minus_files" min="0" title="{{ 'Number of files'|lang }}" class="form-control" value="{{ settings.automation_votes_minus_files }}">
+			<label>{{ 'files to the main page'|lang }} - {{ 'having more than'|lang }}</label>
+			<input type="number" name="automation_votes_minus_votes" min="0" title="{{ 'Number of files'|lang }}" class="form-control" value="{{ settings.automation_votes_minus_votes }}">
+			<label for="automation_votes_minus_votes">{{ 'votes'|lang }} -</label>
+		</div>
+	</div>
+	<hr>
+	<div class="form-group">
+		<input type="submit" value="{{ 'Save'|lang }}" class="btn btn-primary">
+	</div>
+</form>
+{% endblock %}

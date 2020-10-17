@@ -1,0 +1,22 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+
+<div id="page_left" class="white">
+    <div id="page_left_inside">
+        <h3 class="center-align">{{ 'My files'|lang }}</h3>
+        {% if files %}
+            {% include 'alert.tpl' %}
+            {% include 'files_list.tpl' %}
+            {% include 'pagination.tpl' %}
+        {% else %}
+            <h5 class="red-text">{{ 'Nothing found'|lang }}</h5>
+        {% endif %}
+    </div>
+</div>
+<div id="page_right">
+  {% include 'boxes.tpl' %}
+</div>
+
+{% endblock %}

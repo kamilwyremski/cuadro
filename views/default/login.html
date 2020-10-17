@@ -1,0 +1,144 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+<div class="page_box">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<ul class="tabs">
+					<li class="tab col s3"><a href="#login" {% if tab_active=='login' %}class="active"{% endif %} title="{{ 'Log in'|lang }}">{{ 'Log in'|lang }}</a></li>
+					<li class="tab col s3"><a href="#register" {% if tab_active=='register' %}class="active"{% endif %} title="{{ 'Register'|lang }}">{{ 'Register'|lang }}</a></li>
+					<li class="tab col s3"><a href="#reset_password" {% if tab_active=='reset_password' %}class="active"{% endif %} title="{{ 'Reset password'|lang }}">{{ 'Reset password'|lang }}</a></li>
+				</ul>
+				{% if alert_success or alert_danger %}<br>{% endif %}
+				{% include 'alert.tpl' %}
+				<div id="login" class="col s12 white">
+					{% if form_complete_data %}
+						<form method="post">
+							<input type="hidden" name="action" value="complete_data">
+							<h3>{{ 'Complete data'|lang }}</h3><br>
+							<div class="input-field">
+								<label for="complete_username">{{ 'Username'|lang }}</label>
+								<input type="text" name="username" placeholder="{{ 'Username'|lang }}" id="complete_username" required maxlength="64" value="{{ input.username }}" title="{{ 'Enter your username. Use only characters:'|lang }} a-zA-Z0-9-_" pattern="[a-zA-Z0-9-_]+">
+							</div>
+							<button type="submit" class="btn waves-effect waves-light">{{ 'Save'|lang }}</button>
+						</form>
+					{% else %}
+						<form method="post">
+							<input type="hidden" name="action" value="login">
+							<input type="hidden" name="session_code" value="{{ session_code }}">
+							<h3>{{ 'Log in'|lang }}</h3><br>
+							<div class="input-field">
+								<label for="login_username">{{ 'Username / email'|lang }}</label>
+								<input type="text" name="username" placeholder="{{ 'example@example.com'|lang }}" id="login_username" required value="{{ post.username }}" title="{{ 'Enter your username or e-mail'|lang }}">
+							</div>
+							<div class="input-field">
+								<label for="login_password">{{ 'Password'|lang }}</label>
+								<input type="password" name="password" placeholder="****" id="login_password" required title="{{ 'Enter your password'|lang }}">
+							</div>
+							<button type="submit" class="btn waves-effect waves-light">{{ 'Log in'|lang }}</button>
+							{% if facebook_redirect_uri or google_redirect_uri %}<br><br>{% endif %}
+							{% if facebook_redirect_uri %}
+								<a href="{{ facebook_redirect_uri }}" title="{{ 'Log in by FB'|lang }}" class="btn waves-effect waves-light indigo">{{ 'Log in by FB'|lang }}</a>
+							{% endif %}
+							{% if google_redirect_uri %}
+								<a href="{{ google_redirect_uri }}" title="{{ 'Log in by Google'|lang }}" class="btn waves-effect waves-light red darken-1">{{ 'Log in by Google'|lang }}</a>
+							{% endif %}
+						</form>
+					{% endif %}
+				</div>
+				<div id="register" class="col s12">
+					<form method="post" action="{{ path('login') }}">
+						<input type="hidden" name="action" value="register">
+						<h3>{{ 'Register'|lang }}</h3><br>
+						{% if error.info %}
+							<div class="card-panel red darken-1 white-text">{{ error.info }}</div>
+						{% endif %}
+						{% if error.email %}
+							<div class="card-panel red darken-1 white-text">{{ error.email }}</div>
+						{% endif %}
+						<div class="input-field">
+							<label for="register_email">{{ 'E-mail address'|lang }}</label>
+							<input type="email" name="email" placeholder="{{ 'example@example.com'|lang }}" id="register_email" required maxlength="64" value="{{ input.email }}" title="{{ 'Enter your email address'|lang }}">
+						</div>
+						{% if error.username %}
+							<div class="card-panel red darken-1 white-text">{{ error.username }}</div>
+						{% endif %}
+						<div class="input-field">
+							<label for="register_username">{{ 'Username'|lang }}</label>
+							<input type="text" name="username" placeholder="{{ 'Username'|lang }}" id="register_username" required maxlength="64" value="{{ input.username }}" title="{{ 'Enter your username. Use only characters:'|lang }} a-zA-Z0-9-_" pattern="[a-zA-Z0-9-_]+">
+						</div>
+						{% if error.password %}
+							<div class="card-panel red darken-1 white-text">{{ error.password }}</div>
+						{% endif %}
+						<div class="input-field">
+							<label for="register_password">{{ 'Password'|lang }}</label>
+							<input type="password" name="password" placeholder="****" id="register_password" required maxlength="32" value="{{ input.password }}" title="{{ 'Enter your password'|lang }}">
+						</div>
+						<div class="input-field">
+							<label for="register_password_repeat">{{ 'Repeat password'|lang }}</label>
+							<input type="password" name="password_repeat" placeholder="****" id="register_password_repeat" required maxlength="32" title="{{ 'Here repeat your password'|lang }}">
+						</div>
+						{% if error.captcha %}
+							<div class="card-panel red darken-1 white-text">{{ error.captcha }}</div>
+						{% endif %}
+						<div class="input-field">
+							<label for="register_captcha">{{ 'Enter the code Captcha'|lang }}</label>
+							<br>
+							<img src="php/captcha.php?{{ date().timestamp }}" alt="captcha">
+							<input type="text" placeholder="abc123" title="{{ 'Enter the code Captcha'|lang }}" name="captcha" id="register_captcha" required maxlength="32">
+						</div>
+						{% if error.rules %}
+							<div class="card-panel red darken-1 white-text">{{ error.rules }}</div>
+						{% endif %}
+						<p>
+							<label>
+								<input type="checkbox" name="rules" class="filled-in" required {% if input.rules %}checked{% endif %}>
+								<span>{{ 'Accepts the terms and conditions and the privacy policy'|lang }}: <a href="{{ path('rules') }}" title="{{ 'Terms of service'|lang }}" target="_blank">{{ 'Terms of service'|lang }}</a> - <a href="{{ path('privacy_policy') }}" title="{{ 'Privacy policy'|lang }}" target="_blank">{{ 'Privacy policy'|lang }}</a></span>
+							</label>
+						</p>
+						<button type="submit" class="btn waves-effect waves-light">{{ 'Register'|lang }}</button>
+					</form>
+				</div>
+				<div id="reset_password" class="col s12">
+					{% if form_new_password %}
+						<h3>{{ 'Enter a new password'|lang }}</h3><br>
+						<form method="post">
+							<input type="hidden" name="action" value="new_password">
+							<div class="input-field">
+								<input type="text" disabled value="{{ form_new_password.username }}">
+							</div>
+							<div class="input-field">
+								<input type="email" disabled value="{{ form_new_password.email }}">
+							</div>
+							<div class="input-field">
+								<label for="new_password">{{ 'Enter a new password'|lang }}</label>
+								<input type="password" name="password" placeholder="****" id="new_password" title="{{ 'Enter here a new password'|lang }}" required value="{{ input.password }}" maxlength="32">
+							</div>
+							<div class="input-field">
+								<label for="new_password_repeat">{{ 'Repeat new password'|lang }}</label>
+								<input type="password" name="password_repeat" placeholder="****" id="new_password_repeat" title="{{ 'Repeat new password'|lang }}" required maxlength="32">
+							</div>
+							<input type="submit" class="btntext-uppercase" value="{{ 'Change password'|lang }}">
+					{% else %}
+						<h3>{{ 'Reset password'|lang }}</h3><br>
+						<form method="post" action="{{ path('login') }}">
+							<input type="hidden" name="action" value="reset_password">
+							<div class="input-field">
+								<label for="reset_username">{{ 'Username / email'|lang }}</label>
+								<input type="text" name="username" placeholder="{{ 'example@example.com'|lang }}" id="reset_username" required maxlength="64" value="{{ input.username }}">
+							</div>
+							<div class="input-field">
+								<label for="reset_captcha">{{ 'Enter the code Captcha'|lang }}</label><br>
+								<img src="php/captcha.php?{{ date().timestamp }}" alt="captcha">
+								<input type="text" placeholder="abc123" title="{{ 'Enter the code Captcha'|lang }}" name="captcha" id="reset_captcha" required maxlength="32" title="{{ 'Enter the code Captcha'|lang }}">
+							</div>
+							<input type="submit" class="btn text-uppercase" value="{{ 'Reset password'|lang }}">
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

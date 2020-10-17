@@ -1,0 +1,14 @@
+
+{% extends "main.tpl" %}  
+
+{% block content %}
+
+<div class="center-align container page_box">
+	<h2>{{ 'Error 404'|lang }}</h2>
+	<img src="{{ settings.base_url }}/views/{{ settings.template }}/images/404.png" alt="Error 404" class="responsive-img" style="margin: 40px auto">
+	<h3>{{ 'Page does not exist'|lang }}</h3>
+	<p>{{ 'The page you are looking for has been moved, deleted, or simply never existed.'|lang }}</p>
+</div>
+
+{% endblock %}
+

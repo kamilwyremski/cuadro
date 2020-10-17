@@ -1,0 +1,130 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="{{ 'Add box'|lang }}">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content parent_check_box_type">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">{{ 'Add box'|lang }}</h4>
+			</div>
+			<form method="post" class="form">
+				<input type="hidden" name="action" value="add_box">
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="type">{{ 'Type'|lang }}</label>
+						<select name="type" required class="form-control check_box_type">
+							{% for item in boxes_types %}
+								<option value="{{ item }}">{{ item|lang }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="form-group">
+						<textarea name="content" class="form-control" placeholder="{{ 'Content'|lang }}" title="{{ 'Enter content'|lang }}"></textarea>
+						<input type="number" min="0" class="form-control" name="amount" placeholder="{{ 'Amount'|lang }}" title="{{ 'Enter amount'|lang }}">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="{{ 'Cancel'|lang }}">
+					<input type="submit" class="btn btn-danger" value="{{ 'Execute'|lang }}">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="page-header">
+	<h1><span class="glyphicon glyphicon-tree-deciduous"></span>{{ 'Boxes'|lang }}</h1>
+	<p>{{ 'Here you can edit the boxes on website'|lang }}</p>
+</div>
+
+{% include 'alert.tpl' %}
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add">{{ 'Add box'|lang }}</button>
+<br><br>
+{% if boxes %}
+	<table class="table table-striped table-bordered table-condensed">
+		<tr>
+			<th></th>
+			<th>{{ 'Type'|lang }}</th>
+			<th class="text-center" style="width:55px">{{ 'Position'|lang }}</th>
+			<th>{{ 'Content'|lang }} / {{ 'Amount'|lang }}</th>
+			<th class="text-center">{{ 'Edit'|lang }}</th>
+			<th class="text-center">{{ 'Remove'|lang }}</th>
+		</tr>
+
+		{% for item in boxes %}
+			<tr>
+				<td>{{ loop.index }}</td>
+				<td>{{ item.type|lang }}</td>
+				<td class="text-center">
+					<a href="#" title="{{ 'Position up'|lang }}" class="glyphicon glyphicon-arrow-up ajax {% if loop.first %}inactive{% endif %}" data-action="position_boxes" data-id="{{ item.id }}" data-position="{{ item.position }}" data-plusminus="+"></a>
+					<a href="#" title="{{ 'Position down'|lang }}" class="glyphicon glyphicon-arrow-down ajax {% if loop.last %}inactive{% endif %}" data-action="position_boxes" data-id="{{ item.id }}" data-position="{{ item.position }}" data-plusminus="-"></a>
+				</td>
+				<td>{% if item.type=='text' %}{{ item.content|raw }}{% elseif item.type=='new_files' or item.type=='waiting_room' or item.type=='random_files' or item.type=='top_files' or item.type=='tags' %}{{ item.amount }}{% endif %}</td>
+				<td class="text-center"><a href="#" title="{{ 'Edit'|lang }}" class="glyphicon glyphicon-edit" data-toggle="modal" data-target="#edit_{{ item.id }}"></a></td>
+				<td class="text-center"><a href="#" title="{{ 'Remove'|lang }}" class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#remove_{{ item.id }}"></a></td>
+			</tr>
+
+			<div class="modal fade" id="edit_{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ 'Edit'|lang }}">
+				<div class="modal-dialog parent_check_box_type" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">{{ 'Edit'|lang }}</h4>
+						</div>
+						<form method="post" class="form">
+							<input type="hidden" name="action" value="edit_box">
+							<input type="hidden" name="id" value="{{ item.id }}">
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="type">{{ 'Type'|lang }}</label>
+									<select name="type" required class="form-control check_box_type">
+										{% for item2 in boxes_types %}
+											<option value="{{ item2 }}" {% if item.type == item2 %}selected{% endif %}>{{ item2|lang }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group">
+									<textarea name="content" class="form-control" placeholder="{{ 'Content'|lang }}" title="{{ 'Enter content'|lang }}">{{ item.content|raw }}</textarea>
+									<input type="number" min="0" class="form-control" name="amount" placeholder="{{ 'Amount'|lang }}" title="{{ 'Enter amount'|lang }}" value="{{ item.amount }}">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<input type="button" class="btn btn-default" data-dismiss="modal" value="{{ 'Cancel'|lang }}">
+								<input type="submit" class="btn btn-danger" value="{{ 'Execute'|lang }}">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="remove_{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ 'Remove box'|lang }}">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">{{ 'Remove box'|lang }}</h4>
+						</div>
+						<form method="post">
+							<input type="hidden" name="action" value="remove_box">
+							<input type="hidden" name="id" value="{{ item.id }}">
+							<div class="modal-body">
+								<p>{{ 'Are you sure you want to remove box?'|lang }}</p>
+							</div>
+							<div class="modal-footer">
+								<input type="button" class="btn btn-default" data-dismiss="modal" value="{{ 'Cancel'|lang }}">
+								<input type="submit" class="btn btn-danger" value="{{ 'Execute'|lang }}">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</table>
+{% else %}
+	<h4 class="text-danger">{{ 'Nothing found'|lang }}</h4>
+{% endif %}
+
+{% endblock %}

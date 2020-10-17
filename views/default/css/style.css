@@ -1,0 +1,179 @@
+body{
+   	background-image: url('../images/background.png');    display: flex;    min-height: 100vh;  flex-direction: column;
+}
+main {
+	flex: 1 0 auto;
+}
+.page_box{
+	box-shadow: 0 0 10px rgba(0,0,0,0.2); background-color: white; padding-bottom:20px; padding-top: 10px;
+}
+.pagination li.disabled a{
+	color: white;
+}
+#menu{
+	position: relative; z-index: 999;
+}
+.brand-logo img{
+	max-height: 40px; margin-top: 15px;max-width: 160px;
+}
+#menu ul li a{
+	text-transform: uppercase;
+}
+#menu ul li.active a{
+	color: #dadada;
+}
+#menu ul#mobile-demo li.active a, #menu ul ul li.active a{
+	color: #aaaaaa;
+}
+#dropdown_account{
+	min-width: 150px;
+}
+#page_left{
+	display:inline-block; width: 65%; max-width: calc(100% - 370px); padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.2); 	vertical-align: top;
+}
+#page_left_inside{
+	width: 100%; max-width: 700px; float: right;
+}
+#page_left_inside::after{
+	clear: both;
+}
+#page_right{
+	display:inline-block; width: 360px; padding: 30px; vertical-align: top;
+}
+#form_add_file .tabs .tab a{
+	padding: 0 10px;
+}
+#form_add_file_preview{
+	height: 150px; max-width: 100%; margin-bottom: 20px;
+}
+.add_file_type_box{
+	margin: 20px 0;
+}
+.footer-copyright a{
+	color: white;
+}
+.btn{
+	cursor: pointer;
+}
+/* file */
+.file{
+	margin-bottom: 50px;
+}
+.file_data{
+	display: flex; justify-content: space-between; flex-wrap: wrap;
+}
+.set_voice_box{
+	display: inline-block; vertical-align: top; padding: 1px;
+}
+.set_voice{
+	display: inline-block; vertical-align: top;
+}
+.set_voice i{
+	display: block;
+}
+.set_voice_box span{
+	display: inline-block; vertical-align: top; padding-top: 3px;
+}
+.file_social{
+	display: flex; flex-wrap: wrap;
+}
+.button_social{
+	margin:5px; 
+}
+.files_list.card .card-image{
+	max-width: 200px;
+}
+.files_list h5{
+	margin-top:0;
+}
+.file .truncate{
+	padding-bottom: 5px;
+}
+/* boxes */
+.box{
+  padding: 10px; background-color: white; margin: 0 0 30px; box-shadow: 0 0 10px rgba(0,0,0,0.2); overflow: hidden; 
+}
+.box_search input[type=search]{
+	padding-right: 30px; width: calc(100% - 30px);
+}
+.box_search .label-icon{
+	width: 100%;
+}
+.box_search .material-icons{
+	position: absolute;     right: 15px;    cursor: pointer; top: 10px;
+}
+.box .card .card-content{
+	padding: 8px 12px 12px;
+}
+.box .truncate{
+	padding-bottom: 2px;
+}
+/* back to top */
+#back_to_top{
+	position: fixed; bottom: 15px; right: 15px; z-index: 100; opacity: 0.5; transition: all 0.5s; border: solid 1px #bbbbbb;
+}
+#back_to_top:hover{
+	opacity: 0.9;
+}
+#back_to_top.back_to_top_hidden{
+	visibility:hidden;  opacity:0;
+}
+#back_to_top i{
+	font-size: 3em;	display: block;
+}
+/* side panel facebook */
+#facebook2_2{
+	right: -300px; z-index: 1000; background-color: #2980b9; width: 300px; padding: 1px; height:354px; position: fixed; top: 88px; border: 1px solid white;
+}
+#facebook2_2_image{
+	position: absolute; top:-1px; left:-40px; width:40px; height: 51px; background-color: #2980b9; border: solid 1px white; border-right: none; border-top-left-radius: 2px; border-bottom-left-radius: 2px;
+}
+#facebook2_2_image img{
+	position: absolute; top:15px; left: 14px;
+}
+/* cookie & rodo alert */
+#cookies-message{
+	color: white; padding: 12px 10px; position: fixed; bottom:0px; left:0; right:0; background-color: rgba(0,0,0,0.6); z-index: 100000; box-shadow: 0 0 5px rgba(0,0,0,0.4); display: none; text-align: center;
+}
+#accept-cookies-checkbox{
+	background-color: #00AFBF; color: #FFF; border: solid 1px #00AFBF; transition: all 0.3s; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-left: 10px; text-decoration: none;
+}
+#accept-cookies-checkbox:hover{
+	background-color: transparent; border-color: white;
+}
+#rodo-message .modal-footer{
+	height: auto; text-align: left;
+}
+#rodo-message .modal-close{
+	height: auto;
+}
+/* mobile */
+@media(max-width: 1100px) {
+	.brand-logo img{
+		max-width: 100px;
+	}
+}
+@media(max-width: 850px) {
+	#page_left{
+		max-width: 100%; width: auto; display: block; padding: 40px;
+	}
+	#page_left_inside{
+		float: none;
+	}
+	#page_right{
+		padding: 20px; width: auto; display: block; text-align: center;
+	}
+	.box{
+		display: inline-block; vertical-align: top; width: 300px; max-width: calc(100% - 30px); margin: 15px;
+	}
+}
+@media(max-width: 650px) {
+	#rodo-message .modal-content{
+		height: calc(100% - 100px);
+	}
+}
+@media(max-width: 410px) {
+	#rodo-message .modal-content{
+		height: calc(100% - 160px);
+	}
+}

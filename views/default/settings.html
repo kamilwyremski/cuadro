@@ -1,0 +1,43 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+
+<div class="page_box">
+	<div class="container">
+		<h3>{{ 'Settings'|lang }}</h3>
+		<h5>{{ 'Here you can edit your account data'|lang }}</h5>
+		<br>
+		<h4>{{ 'Statistics'|lang }}</h4>
+		<table class="striped">
+			<tr><td>{{ 'Username'|lang }}:</td><td><a href="{{ path('profile',0,user.username) }}" title="{{ user.username }}">{{ user.username }}</a></td></tr>
+			<tr><td>{{ 'E-mail address'|lang }}:</td><td>{{ user.email }}</td></tr>
+			<tr><td>{{ 'Number of files'|lang }}:</td><td>{{ user.number_files }}</td></tr>
+			<tr><td>{{ 'In Waiting Room'|lang }}:</td><td>{{ user.number_files_waiting_room }}</td></tr>
+			<tr><td>{{ 'Date of registration'|lang }}:</td><td>{{ user.date|date("d-m-Y") }}</td></tr>
+			<tr><td>{{ 'Number of logins'|lang }}:</td><td>{{ user.number_login }}</td></tr>
+			{% if user.last_login %}
+				<tr><td>{{ 'Last login'|lang }}:</td><td>{{ user.last_login|date("d-m-Y") }} / {{ user.last_login|date("H:i") }}</td></tr>
+			{% endif %}
+			{% if user.last_reset_password %}
+				<tr><td>{{ 'Last reset password'|lang }}:</td><td>{{ user.last_reset_password|date("d-m-Y") }} / {{ user.last_reset_password|date("H:i") }}</td></tr>
+			{% endif %}
+		</table>
+		<br>
+		<h4>{{ 'Password change'|lang }}:</h4>
+		{% include 'alert.tpl' %}
+		<form method="post">
+			<input type="hidden" name="action" value="change_password">
+			<label for="old_password">{{ 'Old password'|lang }}:</label>
+			<input type="password" name="old_password" placeholder="****" id="old_password" maxlength="32" required title="{{ 'Old password'|lang }}">
+			<label for="new_password">{{ 'New password'|lang }}:</label>
+			<input type="password" name="new_password" placeholder="****" id="new_password" maxlength="32" required title="{{ 'New password'|lang }}">
+			<label for="repeat_new_password">{{ 'Repeat new password'|lang }}</label>
+			<input type="password" name="repeat_new_password" placeholder="****" id="repeat_new_password" maxlength="32" required title="{{ 'Repeat new password'|lang }}">
+			<button type="submit" class="btn waves-effect waves-light">{{ 'Save'|lang }}</button>
+		</form>
+		<br><br>
+	</div>
+</div>
+
+{% endblock %}

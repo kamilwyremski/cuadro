@@ -1,0 +1,117 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+
+<div id="page_left" class="white">
+    <div id="page_left_inside">
+        {% include 'alert.tpl' %}
+        {% if file.type=='image' %}
+            <img src="upload/files/{{ file.url }}" alt="{{ file.title }}" class="responsive-img materialboxed" data-caption="{{ file.title }}">
+        {% elseif file.type=='iframe' %}
+            <div class="video-container">
+                <iframe src="{{ file.url }}?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+            </div>
+        {% elseif file.type=='video' %}
+            <video class="responsive-video" controls>
+                <source src="upload/files/{{ file.url }}" type="video/mp4">
+            </video>
+        {% endif %}
+        <h4>{{ file.title }}</h4>
+        <div class="file_data">
+            <div>
+               <p>{% if file.waiting_room %}<a href="{{ path('waiting_room') }}" title="{{ 'Waiting Room'|lang }}">{{ 'Waiting Room'|lang }}</a> • {% endif %}{% if file.category %}<a href="{{ path('category',file.category_id,file.category.slug) }}" title="{{ 'Category'|lang }}: {{ file.category.name }}">{{ file.category.name }}</a> • {% endif %}{% if file.username %}{{ 'Author'|lang }}: <a href="{{ path('profile',file.user_id,file.username) }}" title="{{ 'Profile of'|lang }}: {{ file.username }}">{{ file.username }}</a> • {% endif %}{{ 'View count'|lang }}: <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{ 'all'|lang }}">{{ file.view_all }}</a>&nbsp;/&nbsp;<a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{ 'unique'|lang }}">{{ file.view_unique|default(0) }}</a> • {{ 'Added'|lang }}: {{ file.date|date('Y-m-d') }}</p>
+               {% if file.tags %}
+                    <p>{{ 'Tags'|lang }}: {% for item in file.tags %}<a href="{{ path('tag',0,item.slug) }}" title="{{ 'Tag'|lang }}: {{ item.name }}">{{ item.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+               {% endif %}
+            </div>
+            <div class="set_voice_outside">
+                <div class="set_voice_box">
+                    <a href="#modal_voice_only_logged" {% if settings.voice_only_logged and not user.id %}class="modal-trigger"{% else %}class="set_voice" data-file_id="{{ file.id }}" data-voice="1"{% endif %}><i class="small material-icons">add_box</i></a>
+                    <span class="voice_plus">{{ file.voices_plus }}</span>
+                </div>
+                <div class="set_voice_box">
+                    <a href="#modal_voice_only_logged" {% if settings.voice_only_logged and not user.id %}class="modal-trigger"{% else %}class="set_voice" data-file_id="{{ file.id }}" data-voice="-1"{% endif %}><i class="small material-icons">indeterminate_check_box</i></a>
+                    <span class="voice_minus">{{ file.voices_minus }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="file_social">
+             {% if settings.social_facebook %}
+				<div class="button_social" style="margin-top:2px">
+					<div class="fb-like" data-href="{{ path('file',file.id,file.slug) }}" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+				</div>
+            {% endif %}
+            {% if settings.social_pinterest %}
+				<div class="button_social" style="margin-top:2px">
+					<a href="//www.pinterest.com/pin/create/button/?url={{ path('file',file.id,file.slug) }}" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" /></a>
+					<script async src="//assets.pinterest.com/js/pinit.js"></script>
+				</div>
+			{% endif %}
+			{% if settings.social_twitter %}
+				<div class="button_social">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ path('file',file.id,file.slug) }}" data-lang="pl">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+				</div>
+			{% endif %}
+			{% if settings.social_wykop %}
+				<div class="button_social">
+					<script>
+						var wykop_url=location.href;
+						var wykop_title=encodeURIComponent(document.title);
+						var wykop_desc=encodeURIComponent('{{ file.description }}');
+						var widget_bg='FFFFFF';
+						var widget_type='compact2';
+						var widget_bold=true;
+						var widget_url='https://www.wykop.pl/dataprovider/diggerwidget/?url='+encodeURIComponent("{{ path('file',file.id,file.slug) }}")+'&title='+(wykop_title)+'&desc='+(wykop_desc)+'&bg='+(widget_bg)+'&type='+(widget_type)+'&bold='+(widget_bold);
+						document.write('<div><iframe src="'+widget_url+'" style="border:none;width:100px;height:20px;overflow:hidden;margin:0;padding:0;" frameborder="0" border="0"></iframe></div>');
+					</script>
+				</div>
+			{% endif %}
+		</div>
+        <p>{{ file.description }}</p>
+        {% if settings.allow_comments_fb_file %}
+			<div class="fb-comments" data-href="{{ path('file',file.id,file.slug) }}" data-numposts="15" data-width="100%"></div>
+        {% endif %}
+        {% if file.user_id==user.id or user.moderator %}
+            <br>
+            <a class="waves-effect waves-light btn" href="{{ path('edit',file.id,file.slug) }}">{{ 'Edit'|lang }}</a>
+            {% if user.moderator and file.waiting_room %}
+                <a class="waves-effect waves-light btn modal-trigger" href="#modal_main_page_{{ file.id }}">{{ 'Add to Main Page'|lang }}</a>
+                <div id="modal_main_page_{{ file.id }}" class="modal">
+                    <form method="post">
+                        <input type="hidden" name="action" value="set_main_page">
+                        <input type="hidden" name="id" value="{{ file.id }}">
+                        <div class="modal-content">
+                            <h4>{{ 'Add to Main Page'|lang }}: {{ file.title }}</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-action modal-close waves-effect btn-flat">{{ 'Cancel'|lang }}</a>
+                            <input type="submit" class="btn waves-effect btn-flat" value="{{ 'Execute'|lang }}">
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal_remove_{{ file.id }}">{{ 'Remove'|lang }}</a>
+            <div id="modal_remove_{{ file.id }}" class="modal">
+              <form method="post">
+                <input type="hidden" name="action" value="remove_file">
+                <input type="hidden" name="id" value="{{ file.id }}">
+                <div class="modal-content">
+                    <h4>{{ 'Delete file'|lang }}: {{ file.title }}</h4>
+                    <p>{{ 'Are you sure you want to delete file'|lang }}: "{{ file.title }}"?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect btn-flat">{{ 'Cancel'|lang }}</a>
+                    <input type="submit" class="btn waves-effect btn-flat red" value="{{ 'Execute'|lang }}">
+                </div>
+              </form>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div id="page_right">
+  {% include 'boxes.tpl' %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+
+{% extends "main.tpl" %}  
+
+{% block content %}
+
+<div class="page_box">
+	<div class="container">
+		{% if info_page %}
+			<h2>{{ info_page.name }}</h2>
+			<p><a href="{{ path('info') }}" title="{{ 'Return to the list of pages'|lang }}">{{ 'Return to the list of pages'|lang }}</a></p>
+			<br>
+			{{ info_page.content|raw }}
+			<br><br>
+		{% else %}
+			<h2>{{ 'Info'|lang }}</h2>
+			<br>
+			<div class="collection">
+				{% for item in info %}
+					<a href="{% if item.page=='contact' %}{{ path('contact') }}{% else %}{{ path('info',item.id,item.slug) }}{% endif %}" title="{{ item.name }}" class="collection-item">{{ item.name }}</a>
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}
+

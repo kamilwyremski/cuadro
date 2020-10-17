@@ -1,0 +1,56 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+
+<div id="page_left" class="white">
+    <div id="page_left_inside">
+        {% include 'alert.tpl' %}
+        {% if page_header %}<h3 class="center-align">{{ page_header }}</h3>{% endif %}
+        {% if files %}
+            {% for file in files %}
+                <div class="file">
+                    {% if file.type=='image' %}
+                        <a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}"><img src="views/{{ settings.template }}/images/loading.gif" data-src="upload/files/{{ file.url }}" alt="{{ file.title }}" class="lazy responsive-img"></a>
+                    {% elseif file.type=='iframe' %}
+                        <div class="video-container">
+                            <iframe src="{{ file.url }}?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    {% elseif file.type=='video' %}
+                        <video class="responsive-video" controls>
+							<source src="upload/files/{{ file.url }}" type="video/mp4">
+                        </video>
+                    {% endif %}
+                    <h4><a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}" class="truncate">{{ file.title }}</a></h4>
+                    <div class="file_data">
+                        <p>{% if file.waiting_room %}<a href="{{ path('waiting_room') }}" title="{{ 'Waiting Room'|lang }}">{{ 'Waiting Room'|lang }}</a> • {% endif %}{% if file.category %}<a href="{{ path('category',file.category_id,file.category.slug) }}" title="{{ 'Category'|lang }}: {{ file.category.name }}">{{ file.category.name }}</a> • {% endif %}{% if file.username %}{{ 'Author'|lang }}: <a href="{{ path('profile',file.user_id,file.username) }}" title="{{ 'Profile of'|lang }}: {{ file.username }}">{{ file.username }}</a> • {% endif %}{{ 'View count'|lang }}: <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{ 'all'|lang }}">{{ file.view_all }}</a>&nbsp;/&nbsp;<a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{ 'unique'|lang }}">{{ file.view_unique|default(0) }}</a> • {{ 'Added'|lang }}: {{ file.date|date('Y-m-d') }}</p>
+                        <div class="set_voice_outside">
+                            <div class="set_voice_box">
+                                <a href="#modal_voice_only_logged" {% if settings.voice_only_logged and not user.id %}class="modal-trigger"{% else %}class="set_voice" data-file_id="{{ file.id }}" data-voice="1"{% endif %}><i class="small material-icons">add_box</i></a>
+                                <span class="voice_plus">{{ file.voices_plus }}</span>
+                            </div>
+                            <div class="set_voice_box">
+                                <a href="#modal_voice_only_logged" {% if settings.voice_only_logged and not user.id %}class="modal-trigger"{% else %}class="set_voice" data-file_id="{{ file.id }}" data-voice="-1"{% endif %}><i class="small material-icons">indeterminate_check_box</i></a>
+                                <span class="voice_minus">{{ file.voices_minus }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-align">
+                        <a href="{{ path('file',file.id,file.slug) }}" class="btn" title="{{ file.title }}">{{ 'See'|lang }}</a>
+                    </div>
+                    {% if ads[loop.index] %}
+                        {{ ads[loop.index].code|raw }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% include 'pagination.tpl' %}
+        {% else %}
+            <h5 class="red-text">{{ 'Nothing found'|lang }}</h5>
+        {% endif %}
+    </div>
+</div>
+<div id="page_right">
+  {% include 'boxes.tpl' %}
+</div>
+
+{% endblock %}

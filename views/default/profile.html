@@ -1,0 +1,94 @@
+
+{% extends "main.tpl" %}
+
+{% block content %}
+
+<div class="page_box">
+	<div class="container">
+		<h3>{{ 'Profile of'|lang }}: {{ profile.username }}</h3>
+		<h5><a href="{{ path('profile_files',0,profile.username) }}" title="{{ 'See all files added by this user'|lang }}">{{ 'See all files added by this user'|lang }}</a></h5>
+		<br>
+		<h5>{{ 'Statistics'|lang }}</h5>
+		<table class="striped">
+			<tr><td>{{ 'Username'|lang }}:</td><td>{{ profile.username }}</td></tr>
+			<tr><td>{{ 'Number of files'|lang }}:</td><td>{{ profile.number_files }}</td></tr>
+			<tr><td>{{ 'In Waiting Room'|lang }}:</td><td>{{ profile.number_files_waiting_room }}</td></tr>
+			<tr><td>{{ 'Date of registration'|lang }}:</td><td>{{ profile.date|date("d-m-Y") }}</td></tr>
+			<tr><td>{{ 'Number of logins'|lang }}:</td><td>{{ profile.number_login }}</td></tr>
+			{% if profile.last_login %}
+				<tr><td>{{ 'Last login'|lang }}:</td><td>{{ profile.last_login|date("d-m-Y") }} / {{ profile.last_login|date("H:i") }}</td></tr>
+			{% endif %}
+		</table>
+		{% if settings.allow_comments_fb_profile %}
+			<br><br>
+			<h5>{{ 'Comments'|lang }}</h5>
+			<div class="fb-comments" data-href="{{ path('profile',0,profile.username) }}" data-numposts="15"></div>
+		{% endif %}
+		<br>
+		{% if settings.show_contact_form_profile %}
+			<br><br>
+			<h5>{{ 'Contact form'|lang }}</h5>
+			<br>
+			{% include 'alert.tpl' %}
+			<form method="post" enctype="multipart/form-data">
+				<input type="hidden" name="action" value="send_message">
+				<div class="row">
+					<div class="input-field col s12">
+						<label for="name">{{ 'Name'|lang }}</label>
+						<input type="text" class="validate" id="name" name="name" placeholder="{{ 'John Smith'|lang }}" required value="{{ input.name }}" title="{{ 'Enter your name'|lang }}">
+					</div>
+				</div>
+				<div class="row"> 				
+					<div class="input-field col s12">
+						<label for="email">{{ 'E-mail address'|lang }}</label>
+						<input type="email" class="validate" id="email" name="email" placeholder="{{ 'example@example.com'|lang }}" required value="{% if input.email %}{{ input.email }}{% elseif user.id %}{{ user.email }}{% endif %}" title="{{ 'Enter your email address'|lang }}">
+					</div>
+				</div>
+				<div class="row"> 				
+					<div class="input-field col s12">
+						<label for="message">{{ 'Message'|lang }}</label>
+						<textarea class="validate materialize-textarea" rows="4" name="message" id="message" required placeholder="{{ 'My message'|lang }}" title="{{ 'Enter your message'|lang }}">{{ input.message }}</textarea>
+					</div>
+				</div>
+				{% if settings.mail_attachment %}
+					<div class="row"> 				
+						<div class="file-field input-field col s12">
+							<div class="btn">
+								<span>{{ 'Attachment'|lang }}</span>
+								<input type="file" name="attachment">
+							</div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="text">
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				<div class="row"> 				
+					<div class="input-field col s12">
+						<label for="captcha">{{ 'Enter the code Captcha'|lang }}</label>
+						<br>
+						<img src="php/captcha.php?{{ date().timestamp }}" alt="captcha">
+						<input type="text" placeholder="abc123" title="{{ 'Enter the code Captcha'|lang }}" name="captcha" id="captcha" required maxlength="32">
+					</div>
+				</div>
+				{% if not user.id %}
+					<div class="row"> 				
+						<div class="col s12">
+							<input type="checkbox" name="rules" id="rules" required {% if input.rules %}checked{% endif %}>
+							<label for="rules">{{ 'Accepts the terms and conditions and the privacy policy'|lang }}: <a href="{{ path('rules') }}" title="{{ 'Terms of service'|lang }}" target="_blank">{{ 'Terms of service'|lang }}</a> - <a href="{{ path('privacy_policy') }}" title="{{ 'Privacy policy'|lang }}" target="_blank">{{ 'Privacy policy'|lang }}</a>
+							</label>
+						</div>
+					</div>
+				{% endif %}
+				<div class="row">
+					<div class="col s12">
+						<button type="submit" class="btn waves-effect waves-light">{{ 'Send!'|lang }}</button>
+					</div>
+				</div>
+			</form>
+			<br><br><br>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}
