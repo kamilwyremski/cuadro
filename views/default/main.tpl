@@ -160,7 +160,7 @@
 {% endif %}
 
 {% block javascript %}
-	<script src="views/{{ settings.template }}/js/jquery-3.2.1.min.js"></script>
+	<script src="views/{{ settings.template }}/js/jquery-3.5.1.min.js"></script>
 	<script src="views/{{ settings.template }}/materialize/js/materialize.min.js"></script>
 	<script src="views/{{ settings.template }}/js/jquery.lazy.min.js"></script>
 	<script src="views/{{ settings.template }}/js/engine.js"></script>
