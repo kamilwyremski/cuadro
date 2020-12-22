@@ -2,7 +2,6 @@
 
 	function checkBoxType(object){
 		var $form = object.parents('.parent_check_box_type'), val = object.val();
-		console.log($form);
 		if(val == 'text'){
 			$form.find('[name=content]').show().attr('disabled',false);
 			$form.find('[name=amount]').hide().attr('disabled',true);
@@ -107,3 +106,7 @@ function run_ckeditor(id,height=200){
 			removeDialogTabs: 'link:upload;image:upload'});
 	});
 }
+
+$(document).on({'show.bs.modal': function () {
+	$(this).removeAttr('tabindex');
+} }, '.modal');
