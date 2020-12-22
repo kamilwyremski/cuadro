@@ -1,10 +1,29 @@
 {
-    "require": {
-        "twig/twig": "~2.0",
-		"phpmailer/phpmailer": "~6.0"
-    },
-    "autoload": {
-		"classmap": ["class/"],
-		"files": ["php/global.php"]
-	}
+  "type": "project",
+  "license": "proprietary",
+  "name": "kamilwyremski/cuadro",
+  "description": "CUADRO allows you to easily create your own website with pictures, photos and movies. Cuadro allows upload graphic and MP4 file by users and added videos from Youtube, Vimeo and DailyMotion.",
+  "version": "1.8.0",
+  "homepage": "https://cuadro.itworksbetter.net",
+  "authors": [
+    {
+      "name": "Kamil Wyremski",
+      "email": "kamil@wyremski.pl",
+      "homepage": "https://wyremski.pl",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "docs": "https://blog.wyremski.pl/cuadro-skrypt-dla-strony-www-z-obrazkami-i-filmami/"
+  },
+  "require": {
+    "twig/twig": "^3.0",
+    "phpmailer/phpmailer": "~6.0"
+  },
+  "autoload": {
+    "classmap": ["class/"],
+    "files": [
+      "php/global.php"
+    ]
+  }
 }
