@@ -76,8 +76,6 @@
         return false;
     });
 
-	$('.datepicker').datepicker({language: 'pl',  format: 'yyyy-mm-dd'});
-
 })
 
 $(document).on('click', '.open_roxy', function(){
