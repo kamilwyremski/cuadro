@@ -92,22 +92,6 @@ function getTagBySlug($slug){
 	return $sth->fetch(PDO::FETCH_ASSOC);
 }
 
-function getCategoryBySlug($slug){
-	global $db;
-	$sth = $db->prepare('SELECT * FROM '._DB_PREFIX_.'categories WHERE slug=:slug LIMIT 1');
-	$sth->bindValue(':slug', $slug, PDO::PARAM_STR);
-	$sth->execute();
-	return $sth->fetch(PDO::FETCH_ASSOC);
-}
-
-function getCategories(){
-	global $db;
-	$categories = [];
-	$sth = $db->query('SELECT * FROM '._DB_PREFIX_.'categories ORDER BY position');
-	foreach($sth as $row){$categories[] = $row;}
-	return $categories;
-}
-
 function mailsQueueAdd($action,$receiver,$data='',int $priority=0){
 	global $db;
 	if($action && $receiver){

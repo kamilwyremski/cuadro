@@ -22,7 +22,7 @@ class boxes {
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)){
       if($controller!='admin'){
         if($row['type']=='categories'){
-          $row['categories'] = getCategories();
+          $row['categories'] = categories::list();
         }elseif($row['type']=='tags'){
           $row['tags'] = getTags($row['amount']);
           $row['max_amount_tag'] = 0;

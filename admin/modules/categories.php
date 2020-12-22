@@ -19,28 +19,23 @@ if($admin->is_logged()){
 
 	if(!_ADMIN_TEST_MODE_ and isset($_POST['action'])){
 		if($_POST['action']=='add_category' and !empty($_POST['name'])){
-			$sth = $db->prepare('INSERT INTO `'._DB_PREFIX_.'categories`(`slug`, `name`, `position`) VALUES (:slug,:name,:position)');
-			$sth->bindValue(':slug', slug($_POST['name']), PDO::PARAM_STR);
-			$sth->bindValue(':name', $_POST['name'], PDO::PARAM_STR);
-			$sth->bindValue(':position', getPosition('categories'), PDO::PARAM_INT);
-			$sth->execute();
+
+			categories::add($_POST['name']);
 			$render_variables['alert_success'][] = lang('Successfully added new category').' '.filter($_POST['name']);
+
 		}elseif($_POST['action']=='edit_category' and isset($_POST['id']) and $_POST['id']>0 and !empty($_POST['name'])){
-			$sth = $db->prepare('UPDATE `'._DB_PREFIX_.'categories` SET slug=:slug, name=:name WHERE id=:id limit 1');
-			$sth->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
-			$sth->bindValue(':slug', slug($_POST['name']), PDO::PARAM_STR);
-			$sth->bindValue(':name', $_POST['name'], PDO::PARAM_STR);
-			$sth->execute();
+
+			categories::edit($_POST['id'],$_POST['name']);
 			$render_variables['alert_success'][] = lang('Changes have been saved');
+
 		}elseif($_POST['action']=='remove_category' and isset($_POST['id']) and $_POST['id']!=''){
-			$sth = $db->prepare('DELETE FROM `'._DB_PREFIX_.'categories` WHERE id=:id LIMIT 1');
-			$sth->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
-			$sth->execute();
+			
+			categories::remove($_POST['id']);
 			$render_variables['alert_danger'][] = lang('Successfully deleted');
 		}
 	}
 
-	$render_variables['categories'] = getCategories();
+	$render_variables['categories'] = categories::list();
 	
 	$title = lang('Categories').' - '.$title_default;
 }

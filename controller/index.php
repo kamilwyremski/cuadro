@@ -41,7 +41,7 @@ if(!empty($controller_subpage)){
 		$settings['description'] = $page_header.' - '.$settings['description'];
 		$subpage_data['username'] = strip_tags($_GET['slug']);
 	}elseif($controller_subpage=='category'){
-		$category = getCategoryBySlug($_GET['slug']);
+		$category = categories::showBySlug($_GET['slug']);
 		if($category){
 			$page_header = lang('Category').': '.$category['name'];
 			$settings['title'] = $page_header.' - '.$settings['title'];

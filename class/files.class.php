@@ -79,10 +79,7 @@ class files {
 		generatePagination($limit);
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)){
             if($row['category_id']>0){
-                $sth2 = $db->prepare('SELECT slug, name FROM '._DB_PREFIX_.'categories WHERE id=:category_id LIMIT 1');
-                $sth2->bindValue(':category_id', $row['category_id'], PDO::PARAM_INT);
-                $sth2->execute();
-                $row['category'] = $sth2->fetch(PDO::FETCH_ASSOC);
+                $row['category'] = categories::show($row['category_id']);
             }
             $files[] = $row;
         }
@@ -125,10 +122,7 @@ class files {
         if($file){
             if($type!='admin'){
                 if($file['category_id']>0){
-                    $sth = $db->prepare('SELECT slug, name FROM '._DB_PREFIX_.'categories WHERE id=:category_id LIMIT 1');
-                    $sth->bindValue(':category_id', $file['category_id'], PDO::PARAM_INT);
-                    $sth->execute();
-                    $file['category'] = $sth->fetch(PDO::FETCH_ASSOC);
+                    $file['category'] = categories::show($file['category_id']);
                 }
 
                 $sth = $db->prepare('SELECT name, slug FROM '._DB_PREFIX_.'tags, '._DB_PREFIX_.'tags_files WHERE id=tag_id AND file_id=:file_id');
