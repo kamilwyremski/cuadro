@@ -151,12 +151,40 @@ class files {
 
         if($data['type']=='image_disk'){
             $type = 'image';
-            $path_parts = pathinfo($_FILES['image_disk']['name']);
-            $path_parts['extension'] = strtolower($path_parts['extension']);
 
-            if(!in_array($path_parts['extension'] , ['jpg','jpeg','png'])){
-                return ['status'=>false,'error'=>lang('Invalid file type')];
-            }else{
+            try {
+                if (!isset($_FILES['image_disk']['error']) || is_array($_FILES['image_disk']['error'])
+                ) {
+                    throw new RuntimeException('Invalid parameters.');
+                }
+            
+                switch ($_FILES['image_disk']['error']) {
+                    case UPLOAD_ERR_OK:
+                        break;
+                    case UPLOAD_ERR_NO_FILE:
+                        throw new RuntimeException('No file sent.');
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        throw new RuntimeException('Exceeded filesize limit.');
+                    default:
+                        throw new RuntimeException('Unknown errors.');
+                }
+           
+                $finfo = new finfo(FILEINFO_MIME_TYPE);
+                if (!array_search(
+                    $finfo->file($_FILES['image_disk']['tmp_name']),
+                    array(
+                        'jpg' => 'image/jpeg',
+                        'jpeg' => 'image/jpeg',
+                        'png' => 'image/png',
+                    ),
+                    true
+                )) {
+                    throw new RuntimeException(lang('Invalid file type'));
+                }
+            
+                $path_parts = pathinfo($_FILES['image_disk']['name']);
+                $path_parts['extension'] = strtolower($path_parts['extension']);
 
                 $url = substr(slug($path_parts['filename']), 0, 200).'.'.$path_parts['extension'];
                 $i = 0;
@@ -177,11 +205,11 @@ class files {
                 }
 
                 if(!empty($settings['watermark_add'])){
-					if(substr($settings['watermark'], 0, 7) != "http://" and substr($settings['watermark'], 0, 8) != "https://"){
-						$settings['watermark'] = getFullUrl($settings['watermark']);
-					}else{
-						$settings['watermark'] = realpath(dirname(__FILE__)).'/../'.$settings['watermark'];
-					}
+                    if(substr($settings['watermark'], 0, 7) != "http://" and substr($settings['watermark'], 0, 8) != "https://"){
+                        $settings['watermark'] = getFullUrl($settings['watermark']);
+                    }else{
+                        $settings['watermark'] = realpath(dirname(__FILE__)).'/../'.$settings['watermark'];
+                    }
                     $stamp_parts = pathinfo($settings['watermark']);
                     $stamp_parts['extension'] = strtolower($stamp_parts['extension']);
 
@@ -258,7 +286,12 @@ class files {
 
                 chmod(_FOLDER_FILES_, 0755);
 
+            } catch (RuntimeException $e) {
+            
+                return ['status'=>false,'error'=>$e->getMessage()];
+            
             }
+
         }elseif($data['type']=='video_youtube'){
             $type = 'iframe';
             preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $data['video_youtube'], $match);
