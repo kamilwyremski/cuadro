@@ -14,7 +14,6 @@
 session_start();
 
 require_once('../../config/config.php');
-require_once('admin.class.php');
 
 $admin = new admin();
 
