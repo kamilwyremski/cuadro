@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `mails_queue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `receiver` varchar(64) COLLATE utf8_polish_ci NOT NULL,
   `action` varchar(32) COLLATE utf8_polish_ci NOT NULL,
-  `data` text COLLATE utf8_polish_ci NOT NULL,
+  `data` LONGTEXT COLLATE utf8_polish_ci NOT NULL,
   `priority` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
