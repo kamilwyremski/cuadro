@@ -68,7 +68,7 @@
           <h5>{{ 'Search'|lang }}</h5>
           <div class="input-field">
             <input name="q" type="search" required value="{{ search }}">
-            <label class="label-icon" for="q"><i class="material-icons">search</i></label>
+            <button type="submit" class="waves-effect waves-teal btn-flat"><i class="material-icons">search</i></button>
           </div>
         </form>
       </div>

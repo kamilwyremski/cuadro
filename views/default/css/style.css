@@ -96,11 +96,11 @@ main {
 .box_search input[type=search]{
 	padding-right: 30px; width: calc(100% - 30px);
 }
-.box_search .label-icon{
-	width: 100%;
+.box_search button{
+	position: absolute;     right: 0;   top: 5px; padding: 5px 10px; cursor: pointer; 
 }
-.box_search .material-icons{
-	position: absolute;     right: 15px;    cursor: pointer; top: 10px;
+.box_search button .material-icons{
+	margin-top: -4px;
 }
 .box .card .card-content{
 	padding: 8px 12px 12px;
