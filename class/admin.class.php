@@ -11,10 +11,6 @@
  * ACCORDING TO THE LICENSE YOU CAN USE THE SCRIPT ON ONE DOMAIN.
  * *********************************************************************/
 
-if(!isset($settings['base_url'])){
-	die('Access denied!');
-}
-
 class admin {
 
 	public function __construct () {
