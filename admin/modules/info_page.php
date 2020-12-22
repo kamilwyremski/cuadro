@@ -1,7 +1,7 @@
 <?php
 /************************************************************************
  * The script of website with pictures and movies CUADRO
- * Copyright (c) 2018 - 2020 by IT Works Better https://itworksbetter.net
+ * Copyright (c) 2018 - 2021 by IT Works Better https://itworksbetter.net
  * Project by Kamil Wyremski https://wyremski.pl
  * 
  * All right reserved

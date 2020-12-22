@@ -1,7 +1,7 @@
 <?php
 /************************************************************************
  * The script of website with pictures and movies CUADRO
- * Copyright (c) 2018 - 2020 by IT Works Better https://itworksbetter.net
+ * Copyright (c) 2018 - 2021 by IT Works Better https://itworksbetter.net
  * Project by Kamil Wyremski https://wyremski.pl
  * 
  * All right reserved
@@ -276,9 +276,13 @@ class files {
             }
             if($vimeo_id){
                 $url = 'https://player.vimeo.com/video/'.$vimeo_id;
-                $xml = simplexml_load_file("https://vimeo.com/api/v2/video/".$vimeo_id.".xml");
-                $xml = $xml->video;
-                $thumb = $xml->thumbnail_large;
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_URL, 'https://vimeo.com/api/oembed.json?url='.$data['video_vimeo']);
+                $result = curl_exec($ch);
+                curl_close($ch);
+                $obj = json_decode($result);
+                $thumb = $obj->thumbnail_url;
             }else{
                 return ['status'=>false,'error'=>lang('Incorrect video address from Vimeo')];
             }
