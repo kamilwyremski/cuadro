@@ -40,7 +40,7 @@ $rssfeed .= '<atom:link href="'.$settings['base_url'].'/php/rss.php" rel="self" 
 if(!empty($files)){
 	foreach($files as $key=>$value){
 		$rssfeed .= '<item>';
-		$rssfeed .= '<title>'.$value['title'].'</title>';
+		$rssfeed .= '<title>'.str_replace('&','&amp;',$value['title']).'</title>';
 		$rssfeed .= '<link>'.path('file',$value['id'],$value['slug']).'</link>';
 		$rssfeed .= '<guid>'.path('file',$value['id'],$value['slug']).'</guid>';
 		$rssfeed .= '<pubDate>'.date("D, d M Y H:i:s O", strtotime($value['date'])).'</pubDate>';
