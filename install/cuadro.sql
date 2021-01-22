@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Czas generowania: 12 Mar 2018, 15:56
--- Wersja serwera: 5.7.19
--- Wersja PHP: 7.1.9
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -15,10 +6,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
---
--- Baza danych: `cuadro`
---
 
 -- --------------------------------------------------------
 
@@ -326,8 +313,7 @@ INSERT INTO `settings` (`name`, `value`) VALUES
 ('facebook_secret', ''),
 ('facebook_side_panel', ''),
 ('favicon', '/upload/images/favicon.png'),
-('footer_bottom', '<p>Strona pokazowa skryptu dla zdjęć i film&oacute;w Cuadro</p>\r\n'),
-('footer_text', '<p><small>Web script for pictures and movies Cuadro v1.8 Project 2018 - 2021 by <a href=\"https://itworksbetter.net\" target=\"_blank\" title=\"Creating websites\">IT Works Better</a></small></p>'),
+('footer_bottom', '<p>Strona pokazowa skryptu dla zdjęć i film&oacute;w Cuadro</p>\r\n<p><small>Web script for pictures and movies Cuadro v1.8 Project 2018 - 2021 by <a href=\"https://itworksbetter.net\" target=\"_blank\" title=\"Creating websites\">IT Works Better</a></small></p>'),
 ('footer_top', '<p>CUADRO to uniwersalny skrypt dla stron internetowych z obrazkami i filmami video. Umożliwia on użytkownikom dodawanie własnych zdjęć z dysku, film&oacute;w z serwis&oacute;w Youtube, Vimeo oraz Dailymotion a także upload film&oacute;w MP4.&nbsp;</p>\r\n\r\n<p>Do skryptu dołączony jest Panel Administratora umożliwiający łatwą edycję ustawień strony.&nbsp;<br />\r\nPanel jest dostępny pod adresem: <a href=\"https://cuadro.itworksbetter.net/admin\" style=\"color:#dfdfdf\" target=\"_blank\">https://cuadro.itworksbetter.net/admin</a><br />\r\nLogin: test<br />\r\nHasło: 1234</p>\r\n\r\n<p>To jest strona pokazowa skryptu - służy jedynie pokazaniu jego funkcjonalności.</p>\r\n'),
 ('generate_sitemap', '1'),
 ('google_id', ''),

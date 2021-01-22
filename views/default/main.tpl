@@ -121,7 +121,6 @@
 	<div class="footer-copyright">
 	  <div class="container center-align">
 		{{ settings.footer_bottom|raw}}
-		{{ settings.footer_text|raw }}
 	  </div>
 	</div>
 </footer>
