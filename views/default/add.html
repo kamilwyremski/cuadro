@@ -103,7 +103,7 @@
             </div>
             <div class="row">
 				<div class="input-field col s12">
-					<input type="submit" class="btn waves-effect waves-light" value="{% if edit_file %}{{ 'Save'|lang }}{% else %}{{ 'Add'|lang }}{% endif %}">
+					<button type="submit" class="btn waves-effect waves-light">{% if edit_file %}{{ 'Save'|lang }}{% else %}{{ 'Add'|lang }}{% endif %}</button>
 				</div>
             </div>
         </div>
