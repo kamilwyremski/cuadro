@@ -1,7 +1,7 @@
 <?php
 /************************************************************************
  * The script of website with pictures and movies CUADRO
- * Copyright (c) 2018 - 2021 by IT Works Better https://itworksbetter.net
+ * Copyright (c) 2018 - 2022 by IT Works Better https://itworksbetter.net
  * Project by Kamil Wyremski https://wyremski.pl
  * 
  * All right reserved
@@ -13,7 +13,7 @@
 
 class files {
 
-  public static function getFiles(int $limit = 10, $subpage = '', $subpage_data = []){
+    public static function getFiles(int $limit = 10, $subpage = '', $subpage_data = []){
 		global $db, $user;
 		$files = [];
         $where_statement = ' true ';
@@ -31,7 +31,7 @@ class files {
         }elseif($subpage=='search' and !empty($_GET['q'])){
             $where_statement .= ' AND (f.slug LIKE "%'.slug(filter($_GET['q'])).'%" OR f.id IN (SELECT tf.file_id FROM '._DB_PREFIX_.'tags t, '._DB_PREFIX_.'tags_files tf WHERE t.slug LIKE "%'.slug(filter($_GET['q'])).'%" AND t.id = tf.tag_id)) ';
         }elseif($subpage=='profile_files' and !empty($subpage_data['username'])){
-            $where_statement .= ' AND f.user_id=(SELECT id FROM '._DB_PREFIX_.'users u WHERE u.id=f.user_id LIMIT 1) ';
+            $where_statement .= ' AND f.user_id=(SELECT id FROM '._DB_PREFIX_.'users u WHERE u.username="'.filter($subpage_data['username']).'" LIMIT 1) ';
         }elseif($subpage=='tag' and !empty($subpage_data['tag_id'])){
             $where_statement .= ' AND (SELECT count(1) FROM '._DB_PREFIX_.'tags_files tf, '._DB_PREFIX_.'tags t WHERE tf.tag_id=t.id AND t.id="'.filter($subpage_data['tag_id']).'" AND tf.file_id=f.id LIMIT 1) > 0 ';
         }elseif($subpage=='my_files'){

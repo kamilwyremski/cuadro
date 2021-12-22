@@ -161,7 +161,6 @@
 {% block javascript %}
 	<script src="views/{{ settings.template }}/js/jquery-3.5.1.min.js"></script>
 	<script src="views/{{ settings.template }}/materialize/js/materialize.min.js"></script>
-	<script src="views/{{ settings.template }}/js/jquery.lazy.min.js"></script>
 	<script src="views/{{ settings.template }}/js/engine.js"></script>
 
 	{% if settings.facebook_side_panel or settings.social_facebook or allow_comments_fb_file or allow_comments_fb_profile %}

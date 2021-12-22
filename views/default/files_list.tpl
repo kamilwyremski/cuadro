@@ -4,9 +4,9 @@
     <div class="card horizontal files_list hoverable">
       <div class="card-image">
         {% if file.type=='image' %}
-          <a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}"><img src="views/{{ settings.template }}/images/loading.gif" data-src="upload/files/{{ file.thumb }}" alt="{{ file.title }}" class="lazy responsive-img"></a>
+          <a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}"><img src="upload/files/{{ file.thumb }}" alt="{{ file.title }}" class="responsive-img" loading="lazy"></a>
         {% elseif file.type=='iframe' %}
-          <a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}"><img src="views/{{ settings.template }}/images/loading.gif" data-src="{{ file.thumb }}" alt="{{ file.title }}" class="lazy responsive-img"></a>
+          <a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}"><img src="{{ file.thumb }}" alt="{{ file.title }}" class="responsive-img" loading="lazy"></a>
         {% elseif file.type=='video' %}
           <video class="responsive-video" controls>
             <source src="upload/files/{{ file.url }}" type="video/mp4">

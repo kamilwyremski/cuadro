@@ -7,10 +7,10 @@
     <div id="page_left_inside">
         {% include 'alert.tpl' %}
         {% if file.type=='image' %}
-            <img src="upload/files/{{ file.url }}" alt="{{ file.title }}" class="responsive-img materialboxed" data-caption="{{ file.title }}">
+            <img src="upload/files/{{ file.url }}" alt="{{ file.title }}" class="responsive-img materialboxed" data-caption="{{ file.title }}" loading="lazy">
         {% elseif file.type=='iframe' %}
             <div class="video-container">
-                <iframe src="{{ file.url }}?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+                <iframe src="{{ file.url }}?wmode=opaque" frameborder="0" allowfullscreen loading="lazy"></iframe>
             </div>
         {% elseif file.type=='video' %}
             <video class="responsive-video" controls>

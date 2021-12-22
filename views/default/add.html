@@ -8,7 +8,7 @@
         {% if edit_file %}
             <input type="hidden" name="action" value="edit_file">
         {% else %}
-          <input type="hidden" name="action" value="add_new_file">
+            <input type="hidden" name="action" value="add_new_file">
         {% endif %}
         <input type="hidden" name="type">
         <div class="container">
@@ -24,7 +24,7 @@
                     </video>
                 {% endif %}
             {% else %}
-               <h3>{{ 'Add new file'|lang }}</h3>
+                <h3>{{ 'Add new file'|lang }}</h3>
             {% endif %}
             {% include 'alert.tpl' %}
             <br>

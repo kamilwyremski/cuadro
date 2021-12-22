@@ -11,10 +11,10 @@
             {% for file in files %}
                 <div class="file">
                     {% if file.type=='image' %}
-                        <a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}"><img src="views/{{ settings.template }}/images/loading.gif" data-src="upload/files/{{ file.url }}" alt="{{ file.title }}" class="lazy responsive-img"></a>
+                        <a href="{{ path('file',file.id,file.slug) }}" title="{{ file.title }}"><img src="upload/files/{{ file.url }}" alt="{{ file.title }}" class="responsive-img" loading="lazy"></a>
                     {% elseif file.type=='iframe' %}
                         <div class="video-container">
-                            <iframe src="{{ file.url }}?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+                            <iframe src="{{ file.url }}?wmode=opaque" frameborder="0" allowfullscreen loading="lazy"></iframe>
                         </div>
                     {% elseif file.type=='video' %}
                         <video class="responsive-video" controls>

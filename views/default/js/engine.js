@@ -1,6 +1,4 @@
 $( document ).ready(function(){
-
-	$('.lazy').Lazy();
 	
 	$(".set_voice").not('.inactive').click(function(){
 		var $this = $(this);

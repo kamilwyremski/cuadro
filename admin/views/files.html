@@ -98,11 +98,11 @@
 							<a href="../upload/files/{{ item.thumb }}" title="{{ item.title }}"><img src="../upload/files/{{ item.thumb }}" alt="{{ item.title }}" class="thumbnail-100"></a>
 						{% elseif item.type=='iframe' %}
 							<a href="{{ item.thumb }}" title="{{ item.title }}"><img src="{{ item.thumb }}" alt="{{ item.title }}" class="thumbnail-100"></a>
-						 {% elseif item.type=='video' %}
-							 <video class="thumbnail-100" controls>
-							   <source src="../upload/files/{{ item.url }}" type="video/mp4">
-							 </video>
-						 {% endif %}
+						{% elseif item.type=='video' %}
+							<video class="thumbnail-100" controls>
+								<source src="../upload/files/{{ item.url }}" type="video/mp4">
+							</video>
+						{% endif %}
 					</td>
 					<td><a href="{{ path('file',item.id,item.slug) }}" title="{{ item.name }}" target="_blank">{{ item.title }}</a></td>
 					<td class="text-center">{% if item.waiting_room %}
