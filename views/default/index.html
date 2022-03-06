@@ -38,8 +38,8 @@
                     <div class="right-align">
                         <a href="{{ path('file',file.id,file.slug) }}" class="btn" title="{{ file.title }}">{{ 'See'|lang }}</a>
                     </div>
-                    {% if ads[loop.index] %}
-                        {{ ads[loop.index].code|raw }}
+                    {% if ads[loop.index0] %}
+                        {{ ads[loop.index0].code|raw }}
                     {% endif %}
                 </div>
             {% endfor %}

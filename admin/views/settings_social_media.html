@@ -12,7 +12,7 @@
 <form method="post" class="form-horizontal" role="form">
 	<input type="hidden" name="action" value="save_settings_social_media">
 	<div class="form-group">
-		<div class="col-sm-10 col-sm-offset-2">
+		<div class="col-sm-9 col-sm-offset-3">
 			<label><input type="checkbox" name="social_facebook" title="{{ 'Show icon sharing from Facebook'|lang }}" {% if settings.social_facebook %}checked{% endif %}> {{ 'Show icon sharing from Facebook'|lang }}</label><br>
 			<label><input type="checkbox" name="social_pinterest" title="{{ 'Show icon sharing from Pinterest'|lang }}" {% if settings.social_pinterest %}checked{% endif %}> {{ 'Show icon sharing from Pinterest'|lang }}</label><br>
 			<label><input type="checkbox" name="social_twitter" title="{{ 'Show icon sharing from Twitter'|lang }}" {% if settings.social_twitter %}checked{% endif %}> {{ 'Show icon sharing from Twitter'|lang }}</label><br>
@@ -29,8 +29,9 @@
 	<div class="form-group">
 		<div class="col-sm-9 col-sm-offset-3">
 			<label><input type="checkbox" name="facebook_side_panel" title="{{ 'Show side panel with Facebook'|lang }}" {% if settings.facebook_side_panel %}checked{% endif %} class="set_required" data-target="target_facebook_side_panel"> {{ 'Show side panel with Facebook'|lang }}</label><br>
-			<label><input type="checkbox" name="allow_comments_fb_file" title="{{ 'Allow to comment files by Facebook Account'|lang }}" {% if settings.allow_comments_fb_file %}checked{% endif %}> {{ 'Allow to comment files by Facebook Account'|lang }}</label>
-			<label><input type="checkbox" name="allow_comments_fb_profile" title="{{ 'Allow to comment on the user\'s profile by Facebook Account'|lang }}" {% if settings.allow_comments_fb_profile %}checked{% endif %}> {{ 'Allow to comment on the user\'s profile by Facebook Account'|lang }}</label>
+			<label><input type="checkbox" name="allow_comments_fb_file" title="{{ 'Allow to comment files by Facebook Account'|lang }}" {% if settings.allow_comments_fb_file %}checked{% endif %}> {{ 'Allow to comment files by Facebook Account'|lang }}</label><br>
+			<label><input type="checkbox" name="allow_comments_fb_profile" title="{{ 'Allow to comment on the user\'s profile by Facebook Account'|lang }}" {% if settings.allow_comments_fb_profile %}checked{% endif %}> {{ 'Allow to comment on the user\'s profile by Facebook Account'|lang }}</label><br>
+			<small class="form-text text-muted"><a href="https://developers.facebook.com/docs/plugins/comments/" title="Facebook Comments Documentation" target="_blank" rel="nofollow noopener">https://developers.facebook.com/docs/plugins/comments/</a></small>
 		</div>
 	</div>
 	<hr>

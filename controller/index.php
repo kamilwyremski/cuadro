@@ -71,12 +71,11 @@ if($settings['ads_between_files']){
 	$sth = $db->query('SELECT * FROM '._DB_PREFIX_.'ads ORDER BY rand()');
 	foreach($sth as $row){$ads_database[] = $row;}
 	if(!empty($ads_database)){
-		for($i=0;$i<$settings['limit_page'];$i++){
-			if($i%$settings['ads_amount_files']==0){
+		for($i = 0; $i < $settings['limit_page']; $i++){
+			if($i%$settings['ads_amount_files'] == $settings['ads_amount_files'] - 1){
 				$ads[$i] = array_pop($ads_database);
 			}
 		}
-
 		$render_variables['ads'] = $ads;
 	}
 }
