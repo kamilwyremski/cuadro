@@ -25,6 +25,8 @@ function getSettings(){
 }
 getSettings();
 
+$settings['assets_version'] = 1;
+
 require_once(realpath(dirname(__FILE__)).'/../vendor/autoload.php');
 
 langLoad($settings['lang']);

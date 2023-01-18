@@ -1,7 +1,8 @@
 ﻿$(document).ready(function(){
 
 	function checkBoxType(object){
-		var $form = object.parents('.parent_check_box_type'), val = object.val();
+		const $form = object.parents('.parent_check_box_type');
+		const val = object.val();
 		if(val == 'text'){
 			$form.find('[name=content]').show().attr('disabled',false);
 			$form.find('[name=amount]').hide().attr('disabled',true);
@@ -22,7 +23,7 @@
 	})
 
 	function set_required(object){
-		$target = $('.'+object.data('target'));
+		const $target = $('.'+object.data('target'));
 		if (object.is(':checked')) {
 			$target.prop('required', true);
 		}else{
@@ -38,7 +39,7 @@
 	})
 
 	$('.select_checkbox').click(function(){
-		$this = $(this);
+		const $this = $(this);
 		if ($this.is(':checked')) {
 			$this.parents('.parent_select_checkbox').find('input[type=checkbox]').prop('checked', true);
 		}else{
@@ -51,31 +52,30 @@
 	})
 
 	$(".ajax").not('.inactive').click(function(){
-		var mydata = $(this).data();
+		const mydata = $(this).data();
 		$.post('php/ajax.php', {
 			'data' : mydata,
 			'send': 'ok'},
-			function(data) {
+			function() {
 				window.location.href = window.location;
-		});
-        return false;
+			});
+      return false;
     });
 
 	$(".ajax_confirm").not('inactive').click(function(){
-		$this = $(this);
+		const $this = $(this);
 		var is_confirmed = confirm($this.data('title'));
 		if (is_confirmed) {
 			var mydata = $this.data();
 			$.post('php/ajax.php', {
 				'data' : mydata,
 				'send': 'ok'},
-				function(data) {
+				function() {
 					window.location.href = window.location;
 			});
 		}
-        return false;
-    });
-
+    return false;
+  });
 })
 
 $(document).on('click', '.open_roxy', function(){
@@ -86,21 +86,21 @@ $(document).on('click', '.open_roxy', function(){
 })
 
 $(document).on('hidden.bs.modal', '.modal', function () {
-    $('.modal:visible').length && $(document.body).addClass('modal-open');
+  $('.modal:visible').length && $(document.body).addClass('modal-open');
 });
 
 function closeRoxySelectFile(){
-	$roxy_target = $('.roxy_target');
+	const $roxy_target = $('.roxy_target');
 	$("[name='"+$roxy_target.data('roxy_name')+"']").val($roxy_target.attr('src'));
 	$('#roxySelectFile').modal('hide');
 }
 
 function run_ckeditor(id,height=200){
-	var roxyFileman = 'js/ckeditor/fileman/index.php';
+	const roxyFileman = 'js/ckeditor/fileman/index.php';
 	$(function(){
 		CKEDITOR.replace( id,{height: height,
-			filebrowserBrowseUrl:roxyFileman,
-			filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+			filebrowserBrowseUrl: roxyFileman,
+			filebrowserImageBrowseUrl: roxyFileman+'?type=image',
 			removeDialogTabs: 'link:upload;image:upload'});
 	});
 }

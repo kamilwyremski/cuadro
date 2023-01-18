@@ -13,7 +13,7 @@
 	<!-- CSS style -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="views/{{ settings.template }}/materialize/css/materialize.min.css"/>
-	<link rel="stylesheet" href="views/{{ settings.template }}/css/style.css"/>
+	<link rel="stylesheet" href="views/{{ settings.template }}/css/style.css?{{ settings.assets_version }}"/>
 	{% if settings.favicon %}<link rel="shortcut icon" href="{{ settings.favicon }}">{% endif %}
 	{% if settings.code_style %}<style>{{ settings.code_style|raw }}</style>{% endif %}
 
@@ -161,7 +161,7 @@
 {% block javascript %}
 	<script src="views/{{ settings.template }}/js/jquery-3.5.1.min.js"></script>
 	<script src="views/{{ settings.template }}/materialize/js/materialize.min.js"></script>
-	<script src="views/{{ settings.template }}/js/engine.js"></script>
+	<script src="views/{{ settings.template }}/js/engine.js?{{ settings.assets_version }}"></script>
 
 	{% if settings.facebook_side_panel or settings.social_facebook or allow_comments_fb_file or allow_comments_fb_profile %}
 		<script>(function(d, s, id) {

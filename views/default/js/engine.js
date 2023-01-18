@@ -1,7 +1,7 @@
 $( document ).ready(function(){
 	
 	$(".set_voice").not('.inactive').click(function(){
-		var $this = $(this);
+		const $this = $(this);
 		$.ajax({
 			url: "php/ajax.php",
 			type: "post",
@@ -14,7 +14,7 @@ $( document ).ready(function(){
 				}
 			}
 		});
-        return false;
+    return false;
 	});
 
 	$('.modal').modal();
@@ -34,7 +34,7 @@ $( document ).ready(function(){
 	$('.materialboxed').materialbox();
 
 	$('.add_file_type').click(function(){
-		$this = $(this);
+		const $this = $(this);
 		$('.add_file_type_box').find('input').attr('disabled',true);
 		$($this.attr('href')).find('input').attr('disabled',false);
 		$('input[name=type]').val($this.data('type'));
@@ -76,8 +76,8 @@ if (window.location.href.indexOf('#_=_') > 0) {
 }
 
 $(window).on("load", function (){
-	var $js_scroll_page = $('#js_scroll_page')
-  	if($js_scroll_page.length>0){
+	const $js_scroll_page = $('#js_scroll_page');
+  if($js_scroll_page.length>0){
 		position = $js_scroll_page.offset().top;
 		if($(window).scrollTop()+$(window).height()<position){
 			$('html, body').stop().animate({scrollTop: (position-110)}, 300);
@@ -92,13 +92,13 @@ function checkCookies(){
 }
 function closeCookiesWindow(){
 	localStorage.cookies_accepted = true;
-	var cookie_window = document. getElementById("cookies-message");
+	const cookie_window = document.getElementById("cookies-message");
 	cookie_window.parentNode.removeChild(cookie_window);
 }
 
 function closeRodoWindow(){
 	localStorage.rodo_accepted = true;
-	var cookie_window = document. getElementById("rodo-message");
+	const cookie_window = document.getElementById("rodo-message");
 	cookie_window.parentNode.removeChild(cookie_window);
 }
 
