@@ -252,17 +252,20 @@ class user {
 
 			$activation_code = md5(uniqid(rand(), true));
 
-			sendMail('register',$data['email'],['activation_code'=>$activation_code, 'password'=>$data['password'], 'username'=>$data['username'], 'email'=>$data['email']]);
-
-			$sth = $db->prepare('INSERT INTO `'._DB_PREFIX_.'users`(`username`, `email`, `password`, `active`, `activation_code`, `register_ip`, `date`) VALUES (:username,:email,:password,0,:activation_code,:register_ip,NOW())');
-			$sth->bindValue(':username', $data['username'], PDO::PARAM_STR);
-			$sth->bindValue(':email', $data['email'], PDO::PARAM_STR);
-			$sth->bindValue(':password', $this->createPassword($data['password']), PDO::PARAM_STR);
-			$sth->bindValue(':activation_code', $activation_code, PDO::PARAM_STR);
-			$sth->bindValue(':register_ip', getClientIp(), PDO::PARAM_STR);
-			$sth->execute();
-
-			return ['status'=>true];
+			if(sendMail('register',$data['email'],['activation_code'=>$activation_code, 'password'=>$data['password'], 'username'=>$data['username'], 'email'=>$data['email']])){
+				$sth = $db->prepare('INSERT INTO `'._DB_PREFIX_.'users`(`username`, `email`, `password`, `active`, `activation_code`, `register_ip`, `date`) VALUES (:username,:email,:password,0,:activation_code,:register_ip,NOW())');
+				$sth->bindValue(':username', $data['username'], PDO::PARAM_STR);
+				$sth->bindValue(':email', $data['email'], PDO::PARAM_STR);
+				$sth->bindValue(':password', $this->createPassword($data['password']), PDO::PARAM_STR);
+				$sth->bindValue(':activation_code', $activation_code, PDO::PARAM_STR);
+				$sth->bindValue(':register_ip', getClientIp(), PDO::PARAM_STR);
+				$sth->execute();
+	
+				return ['status'=>true];
+			}else{
+				$error['info'] = lang('The message was not sent');
+				return ['status'=>false,'error'=>$error];
+			}
 		}
 	}
 
@@ -285,14 +288,16 @@ class user {
 				}else{
 					$code = md5(uniqid(rand(), true));
 
-					$sth = $db->prepare('INSERT INTO `'._DB_PREFIX_.'reset_password`(`user_id`, `active`, `code`, `date`) VALUES (:user_id,1,:code,NOW())');
-					$sth->bindValue(':user_id', $user_data['id'], PDO::PARAM_INT);
-					$sth->bindValue(':code', $code, PDO::PARAM_STR);
-					$sth->execute();
-
-					sendMail('reset_password',$user_data['email'], ['reset_password_code'=>$code, 'username'=>$user_data['username']]);
-
-					return ['status'=>true];
+					if(sendMail('reset_password',$user_data['email'], ['reset_password_code'=>$code, 'username'=>$user_data['username']])){
+						$sth = $db->prepare('INSERT INTO `'._DB_PREFIX_.'reset_password`(`user_id`, `active`, `code`, `date`) VALUES (:user_id,1,:code,NOW())');
+						$sth->bindValue(':user_id', $user_data['id'], PDO::PARAM_INT);
+						$sth->bindValue(':code', $code, PDO::PARAM_STR);
+						$sth->execute();
+	
+						return ['status'=>true];
+					}else{
+						return ['status'=>false,'error'=>lang('The message was not sent')];
+					}
 				}
 			}else{
 				return ['status'=>false,'error'=>lang('Incorrect user data.')];

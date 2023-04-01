@@ -1,6 +1,6 @@
 <?php
 /************************************************************************
- * The script of website with pictures and movies CUADRO V 1.9
+ * The script of website with pictures and movies CUADRO V 1.9.2
  * Copyright (c) 2018 - 2023 by IT Works Better https://itworksbetter.net
  * Project by Kamil Wyremski https://wyremski.pl
  * 
