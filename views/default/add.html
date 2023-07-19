@@ -125,8 +125,9 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <button type="submit" class="btn waves-effect waves-light">{% if edit_file %}{{ 'Save'|lang }}{%
-                        else %}{{ 'Add'|lang }}{% endif %}</button>
+                    <button type="submit" class="btn waves-effect waves-light"><span
+                            class="material-icons rotate">sync</span>{% if edit_file %}{{ 'Save'|lang }}{% else %}{{
+                        'Add'|lang }}{% endif %}</button>
                 </div>
             </div>
         </div>
