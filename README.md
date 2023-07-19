@@ -9,4 +9,3 @@ After copying the files to the server in the site directory, run the command to 
 ```
 composer install
 ```
-
