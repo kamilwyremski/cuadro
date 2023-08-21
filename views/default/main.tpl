@@ -121,6 +121,7 @@
 	<div class="footer-copyright">
 	  <div class="container center-align">
 		{{ settings.footer_bottom|raw }}
+		<!-- MIT licensed script. Deleting software author information is prohibited -->
 		<p><small>Web script for pictures and movies Cuadro v1.9.2 Project 2018 - 2023 by <a href="https://itworksbetter.net" target="_blank" title="Creating websites">IT Works Better</a></small></p>
 	  </div>
 	</div>
