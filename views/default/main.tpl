@@ -120,7 +120,8 @@
 	</div>
 	<div class="footer-copyright">
 	  <div class="container center-align">
-		{{ settings.footer_bottom|raw}}
+		{{ settings.footer_bottom|raw }}
+		<p><small>Web script for pictures and movies Cuadro v1.9.2 Project 2018 - 2023 by <a href="https://itworksbetter.net" target="_blank" title="Creating websites">IT Works Better</a></small></p>
 	  </div>
 	</div>
 </footer>
