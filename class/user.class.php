@@ -13,6 +13,9 @@
 
 class user {
 
+	private $logged_in;
+	private $user_data;
+
 	public function __construct () {
 		global $db, $settings;
 		$this->logged_in = false;
