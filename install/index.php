@@ -22,13 +22,18 @@ if(phpversion()<7.2){
 $install = true;
 require_once('../config/db.php');
 
-if(isset($mysql_server)){
+if (isset($mysql_server)) {
 	header('location: /admin');
 	die('redirect...');
 }
 
-if(!is_writable('../config/db.php')){
+if (!is_writable('../config/db.php')) {
 	die('File config/db.php is not writable!');
+}
+
+if (!file_exists('../vendor/autoload.php')) {
+    die('Error: Missing vendor directory or autoload.php file.<br>Please run <code>composer install</code> before starting the installation.'
+    );
 }
 
 $settings['base_url'] = true;
